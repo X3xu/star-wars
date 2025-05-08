@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SWAPI Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>SWAPI Explorer</h1>
+    <nav>
+      <button data-entity="films">Películas</button>
+      <button data-entity="people">Personajes</button>
+      <button data-entity="planets">Planetas</button>
+      <button data-entity="species">Especies</button>
+      <button data-entity="starships">Naves</button>
+      <button data-entity="vehicles">Vehículos</button>
+    </nav>
+    <div id="view"></div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

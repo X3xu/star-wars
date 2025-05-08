@@ -1,0 +1,119 @@
+/* styles.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #FFE81F; /* amarillo Star Wars */
+  }
+  
+  #app {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    color: #FFE81F;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 1.5rem;
+  }
+  
+  nav {
+    margin-bottom: 2rem;
+  }
+  
+  nav button {
+    background-color: #111;
+    border: 1px solid #FFE81F;
+    color: #FFE81F;
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  nav button:hover {
+    background-color: #FFE81F;
+    color: #000;
+  }
+  
+  input[type="text"],
+  input[type="search"],
+  input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #FFE81F;
+    background: #222;
+    color: #FFE81F;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 0.6rem;
+    margin: 0.2rem 0;
+    background-color: #111;
+    border: 1px solid #FFE81F;
+    cursor: pointer;
+  }
+  
+  li:hover {
+    background-color: #FFE81F;
+    color: #000;
+  }
+  
+  button {
+    font-weight: bold;
+  }
+  
+  pre {
+    text-align: left;
+    background: #111;
+    border: 1px solid #FFE81F;
+    padding: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+
+  .entity-summary {
+    text-align: left;
+    margin-top: 1.5rem;
+    background: #111;
+    padding: 1rem;
+    border: 1px solid #FFE81F;
+    border-radius: 0.5rem;
+  }
+  
+  .entity-summary ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .entity-summary li {
+    padding: 0.4rem 0;
+  }
+  
+  .related-link {
+    margin: 0.3rem;
+    background: none;
+    border: 1px solid #FFE81F;
+    color: #FFE81F;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .related-link:hover {
+    background-color: #FFE81F;
+    color: #000;
+  }
+  
