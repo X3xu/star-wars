@@ -27,7 +27,7 @@ async function loadEntityDetail(entity, url) {
   view.innerHTML = '<p>Cargando detalle...</p>';
   try {
     const data = await fetchEntityDetail(url);
-    renderDetailView(view, entity, data, handleDetailNavigation);
+    await renderDetailView(view, entity, data, handleDetailNavigation, () => loadEntityList(entity));
   } catch (err) {
     view.innerHTML = '<p>Error cargando detalle: ${err.message}</p>';
   }
@@ -37,5 +37,5 @@ function handleDetailNavigation(entity, url) {
   loadEntityDetail(entity, url);
 }
 
-setupNavigation();
 
+setupNavigation();

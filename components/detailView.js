@@ -1,77 +1,72 @@
-import { fetchEntityDetail } from '../API/swapi.js';
-
-export function renderDetailView(container, data) {
-  container.innerHTML = '';
-
-  const title = document.createElement('h2');
-  title.textContent = data.name || data.title || 'Detalle';
-  container.appendChild(title);
-
-  const summary = document.createElement('section');
-  summary.className = 'entity-summary';
-  container.appendChild(summary);
-
-  const ul = document.createElement('ul');
-  summary.appendChild(ul);
-
-  for (const [key, value] of Object.entries(data)) {
-    if (Array.isArray(value) && value.length === 0) continue;
-
-    const li = document.createElement('li');
-    const label = prettifyKey(key) + ': ';
-
-    // Si el valor es un array de URLs
-    if (Array.isArray(value)) {
-      li.innerHTML = '<strong>${label}</strong>';
-      value.forEach(url => {
-        const link = createLinkFromUrl(url);
+export async function renderDetailView(container, entity, data, onNavigateToDetail, onBackToList) {
+    container.innerHTML = '';
+    const backBtn = document.createElement('button');
+    backBtn.textContent = '← Volver a ' + entity;
+    backBtn.addEventListener('click', onBackToList);
+    container.appendChild(backBtn);
+  
+    const title = document.createElement('h2');
+    title.textContent = data.name || data.title || 'Detalle';
+    container.appendChild(title);
+  
+    const ul = document.createElement('ul');
+    for (const [key, value] of Object.entries(data)) {
+      if (!value || (Array.isArray(value) && value.length === 0)) continue;
+  
+      const li = document.createElement('li');
+      const label = prettifyKey(key);
+  
+      if (Array.isArray(value)) {
+        li.innerHTML = '<strong>' + label + '</strong>: ';
+        const linkContainer = document.createElement('span');
+  
+        for (const url of value) {
+          const link = await createLinkFromUrl(url, onNavigateToDetail);
+          if (link) linkContainer.appendChild(link);
+        }
+  
+        li.appendChild(linkContainer);
+      } else if (typeof value === 'string' && value.startsWith('http')) {
+        li.innerHTML = '<strong>' + label + '</strong>: ';
+        const link = await createLinkFromUrl(value, onNavigateToDetail);
         if (link) li.appendChild(link);
-      });
+      } else {
+        li.innerHTML = '<strong>'+ label + '</strong>: '+ value;
+      }
+  
+      ul.appendChild(li);
     }
-
-    // Si es una URL a otra entidad
-    else if (typeof value === 'string' && value.startsWith('http')) {
-      const link = createLinkFromUrl(value);
-      li.innerHTML = '<strong>${label}</strong>';
-      if (link) li.appendChild(link);
-    }
-
-    // Si es un valor normal
-    else {
-      li.innerHTML = '<strong>${label}</strong>${value}';
-    }
-
-    ul.appendChild(li);
+  
+    container.appendChild(ul);
   }
-}
-
-// 🧹 Convierte 'birth_year' → 'Año de nacimiento'
-function prettifyKey(key) {
-  return key
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, c => c.toUpperCase());
-}
-
-// 🔗 Convierte una URL SWAPI en un enlace navegable
-function createLinkFromUrl(url) {
-  const match = url.match(/https:\/\/swapi\.py4e\.com\/api\/(\w+)\/(\d+)\//);
-  if (!match) return null;
-
-  const [_, entity, id] = match;
-
-  const link = document.createElement('button');
-  link.textContent = '${entity} ${id}';
-  link.className = 'related-link';
-  link.addEventListener('click', async () => {
-    const container = document.getElementById('view');
-    container.innerHTML = '<p>Cargando detalle...</p>';
+  
+  function prettifyKey(key) {
+    return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  }
+  
+  async function createLinkFromUrl(url, onNavigateToDetail) {
+    const match = url.match(/https:\/\/swapi\.py4e\.com\/api\/(\w+)\/(\d+)\//);
+    if (!match) return null;
+  
+    const [_, entity, id] = match;
+    const btn = document.createElement('button');
+    btn.textContent = entity + id; 
+    btn.className = 'related-link';
+    btn.addEventListener('click', () => {
+      onNavigateToDetail(entity, url);
+    });
+  
     try {
-      const data = await fetchEntityDetail(url);
-      renderDetailView(container, data);
-    } catch (err) {
-      container.innerHTML = '<p>Error: ${err.message}</p>';
+      const res = await fetch(url);
+      const data = await res.json();
+      btn.textContent = data.name || data.title || '${entity} ${id}';
+    } catch (e) {
+        console.error('Error inesperado al crear el enlace desde ${url}:', error);
+        const errorBtn = document.createElement('button');
+        errorBtn.className = 'related-link error';
+        errorBtn.textContent = 'Enlace roto';
+        errorBtn.disabled = true;
     }
-  });
-
-  return link;
-}
+  
+    return btn;
+  }

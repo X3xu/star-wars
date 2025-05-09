@@ -11,8 +11,7 @@ export function renderListView(container, entity, items, onDetailClick) {
     const renderItems = (filter = '') => {
       list.innerHTML = '';
       const filtered = items.filter(item =>
-        item.name?.toLowerCase().includes(filter.toLowerCase()) ||
-        item.title?.toLowerCase().includes(filter.toLowerCase())
+        item.name?.toLowerCase().includes(filter.toLowerCase()) || item.title?.toLowerCase().includes(filter.toLowerCase())
       );
       if (filtered.length === 0) {
         list.innerHTML = '<li>No se encontraron resultados.</li>';
