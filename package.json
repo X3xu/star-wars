@@ -1,0 +1,13 @@
+{
+  "name": "x3xu",
+  "version": "1.0.0",
+  "description": "¡Bienvenid@ nuestro code challenge SWAPI! No te asustes, ¡¡es más sencillete\r de lo que parece!! Si reusas código y lo estructuras bien, si aplicas un\r enfoque iterativo, y no te lías en detalles, esperamos que en un par de\r tardes lo puedas dejar fino.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve . -s"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
